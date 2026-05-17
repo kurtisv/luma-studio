@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { ContactConfirmationEmail } from "@/emails/contact-confirmation";
 import { sendTransactionalEmail } from "@/lib/email/resend";
+import { publishEcosystemEvent } from "@/lib/ecosystem";
 
 const contactSchema = z.object({
   name: z.string().min(2),
@@ -29,6 +30,21 @@ export async function sendContactMessage(formData: FormData) {
   }
 
   console.log("Luma Studio contact request", parsed.data);
+
+  await publishEcosystemEvent({
+    sourceApp: "luma-studio",
+    targetApps: ["quotepilot", "api-meter"],
+    eventType: "lead.created",
+    entityType: "lead",
+    customerName: parsed.data.name,
+    customerEmail: parsed.data.email,
+    title: "Nouveau lead depuis Luma Studio",
+    description: `${parsed.data.name} a soumis une demande ${parsed.data.projectType} avec budget ${parsed.data.budgetRange}.`,
+    payload: parsed.data,
+    priority: "HIGH",
+    actionLabel: "Creer un devis",
+    actionUrl: "/dashboard/quotes/new",
+  });
 
   await sendTransactionalEmail({
     to: parsed.data.email,

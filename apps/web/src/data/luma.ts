@@ -270,3 +270,24 @@ export const stats = [
   { value: "6", label: "boutique spaces shaped" },
   { value: "94%", label: "clients approving first direction" },
 ];
+
+export const ecosystemHandoffs = [
+  {
+    client: "Mara Chen",
+    company: "Northline Studio",
+    request: "Full launch interior concept from The Mile End Loft inquiry",
+    next: "Lead LUMA-2026-001 appears in QuotePilot as QP-2026-014",
+  },
+  {
+    client: "Elliot Moore",
+    company: "Atelier Boutique",
+    request: "Boutique commercial space review with workshop follow-up",
+    next: "Qualified lead moves to ReserveFlow workshop and ClientHub portal",
+  },
+  {
+    client: "Nadia Fortin",
+    company: "Riverside Condo",
+    request: "Condo refresh consultation with post-delivery support need",
+    next: "Support context is visible later in SupportDesk Lite",
+  },
+];

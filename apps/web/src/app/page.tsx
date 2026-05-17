@@ -9,7 +9,7 @@ import { ServiceCard } from "@/components/luma/service-card";
 import { VisualBlock } from "@/components/luma/visual-block";
 import { MarketingPageShell } from "@/components/marketing/page-shell";
 import { Button } from "@/components/ui/button";
-import { processSteps, projects, services, stats, testimonials } from "@/data/luma";
+import { ecosystemHandoffs, processSteps, projects, services, stats, testimonials } from "@/data/luma";
 import { getCurrentLocale } from "@/lib/locale";
 
 const homeCopy = {
@@ -39,6 +39,12 @@ const homeCopy = {
     clientsTitle: "Designed to feel personal, not over-produced.",
     faqEyebrow: "FAQ",
     faqTitle: "Practical answers before the first conversation.",
+    handoffEyebrow: "Ecosystem handoff",
+    handoffTitle: "Every public inquiry is shown as the first step of a connected business flow.",
+    handoffDesc:
+      "The same clients continue through QuotePilot, ReserveFlow, ClientHub, CommerceKit, EventPass, SupportDesk Lite, and API Meter.",
+    handoffFrom: "Request",
+    handoffNext: "Next module",
     processSteps,
     stats,
     testimonials,
@@ -69,6 +75,12 @@ const homeCopy = {
     clientsTitle: "Concu pour etre personnel, pas surproduit.",
     faqEyebrow: "FAQ",
     faqTitle: "Des reponses pratiques avant la premiere conversation.",
+    handoffEyebrow: "Relais ecosysteme",
+    handoffTitle: "Chaque demande publique devient la premiere etape d'un flux d'entreprise connecte.",
+    handoffDesc:
+      "Les memes clients continuent ensuite dans QuotePilot, ReserveFlow, ClientHub, CommerceKit, EventPass, SupportDesk Lite et API Meter.",
+    handoffFrom: "Demande",
+    handoffNext: "Module suivant",
     processSteps: [
       {
         title: "Ecouter",
@@ -166,6 +178,45 @@ export default async function Home() {
             {t.trust.map((item) => (
               <span key={item}>{item}</span>
             ))}
+          </div>
+        </section>
+
+        <section className="border-b bg-secondary/45">
+          <div className="mx-auto grid max-w-6xl gap-8 px-6 py-14 lg:grid-cols-[0.75fr_1.25fr]">
+            <SectionHeader
+              eyebrow={t.handoffEyebrow}
+              title={t.handoffTitle}
+              description={t.handoffDesc}
+            />
+            <div className="grid gap-3">
+              {ecosystemHandoffs.map((item, index) => (
+                <article key={item.company} className="grid gap-4 border bg-card p-5 sm:grid-cols-[3rem_1fr]">
+                  <p className="font-mono text-sm text-accent">0{index + 1}</p>
+                  <div>
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <h2 className="text-lg font-semibold">{item.client}</h2>
+                      <span className="border bg-background px-2.5 py-1 text-xs font-semibold text-muted-foreground">
+                        {item.company}
+                      </span>
+                    </div>
+                    <div className="mt-4 grid gap-3 text-sm md:grid-cols-2">
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                          {t.handoffFrom}
+                        </p>
+                        <p className="mt-1 leading-6">{item.request}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                          {t.handoffNext}
+                        </p>
+                        <p className="mt-1 leading-6">{item.next}</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

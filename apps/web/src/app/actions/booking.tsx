@@ -8,6 +8,7 @@ import { BookingStatus } from "@/generated/prisma";
 import { requireDashboardAccess } from "@/lib/dashboard-auth";
 import { sendTransactionalEmail } from "@/lib/email/resend";
 import { prisma } from "@/lib/db";
+import { publishEcosystemEvent } from "@/lib/ecosystem";
 import {
   calculateBookingEndAt,
   hasBookingConflict,
@@ -301,6 +302,7 @@ export async function createBookingRequest(formData: FormData) {
     return {
       ok: true as const,
       booking: {
+        id: booking.id,
         customerEmail: booking.customerEmail,
         customerName: booking.customerName,
         startAt: booking.startAt,
@@ -323,6 +325,25 @@ export async function createBookingRequest(formData: FormData) {
         startAt={result.booking.startAt}
       />
     ),
+  });
+
+  await publishEcosystemEvent({
+    sourceApp: "luma-studio",
+    targetApps: ["reserveflow", "clienthub", "api-meter"],
+    eventType: "booking.intent.created",
+    entityType: "booking",
+    entityId: result.booking.id,
+    customerName: result.booking.customerName,
+    customerEmail: result.booking.customerEmail,
+    title: "Demande de rendez-vous depuis Luma Studio",
+    description: `${result.booking.customerName} a demande un rendez-vous ${result.booking.serviceName}.`,
+    payload: {
+      serviceName: result.booking.serviceName,
+      startAt: result.booking.startAt.toISOString(),
+    },
+    priority: "NORMAL",
+    actionLabel: "Voir les rendez-vous",
+    actionUrl: "/dashboard/bookings",
   });
 
   revalidatePath("/dashboard/bookings");
