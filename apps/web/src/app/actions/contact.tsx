@@ -16,6 +16,36 @@ const contactSchema = z.object({
   message: z.string().min(10),
 });
 
+function createFlowId(email: string) {
+  return `flow-${email.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+}
+
+async function sendLeadToQuotePilot(input: z.infer<typeof contactSchema> & { flowId: string }) {
+  const quotePilotUrl =
+    process.env.QUOTEPILOT_INGEST_URL ??
+    `${process.env.NEXT_PUBLIC_QUOTEPILOT_URL ?? "https://quotepilot-omega.vercel.app"}/api/ecosystem/leads`;
+
+  try {
+    await fetch(quotePilotUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        flowId: input.flowId,
+        name: input.name,
+        email: input.email,
+        phone: input.phone ?? "",
+        projectType: input.projectType,
+        budgetRange: input.budgetRange,
+        message: input.message,
+        sourceApp: "luma-studio",
+      }),
+      cache: "no-store",
+    });
+  } catch (error) {
+    console.error("QuotePilot ingest failed", error);
+  }
+}
+
 export async function sendContactMessage(formData: FormData) {
   const parsed = contactSchema.safeParse({
     name: formData.get("name"),
@@ -31,8 +61,10 @@ export async function sendContactMessage(formData: FormData) {
   }
 
   console.log("Luma Studio contact request", parsed.data);
+  const flowId = createFlowId(parsed.data.email);
 
   const event = await publishEcosystemEvent({
+    flowId,
     sourceApp: "luma-studio",
     targetApps: ["quotepilot", "api-meter"],
     eventType: "lead.created",
@@ -47,11 +79,13 @@ export async function sendContactMessage(formData: FormData) {
     actionUrl: "/dashboard/quotes/new",
   });
 
+  await sendLeadToQuotePilot({ ...parsed.data, flowId });
+
   await sendTransactionalEmail({
     to: parsed.data.email,
     subject: "Your Luma Studio inquiry was received",
     react: <ContactConfirmationEmail name={parsed.data.name} />,
   });
 
-  redirect(`/contact?sent=quotepilot&flowId=${encodeURIComponent(event?.flowId ?? "")}`);
+  redirect(`/contact?sent=quotepilot&flowId=${encodeURIComponent(event?.flowId ?? flowId)}`);
 }
