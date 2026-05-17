@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { sendContactMessage } from "@/app/actions/contact";
 import { SectionHeader } from "@/components/luma/section-header";
@@ -37,6 +38,14 @@ const copy = {
       "Tell us what you want the space to feel like, what is not working, and any timing constraints.",
     submit: "Send inquiry",
     demoHint: "Demo mode: submit any name, email, project, and budget to send a live lead into QuotePilot.",
+    startDemo: "Start the ecosystem demo",
+    startDemoText:
+      "This is the entry point: the form below publishes lead.created, creates a QuotePilot notification, and keeps your submitted data attached to the same flowId.",
+    testHere: "What you can test here",
+    receives: "Receives: public visitor intent.",
+    sends: "Sends: lead, budget, message and contact data to QuotePilot.",
+    boilerplate: "Demonstrates: bilingual marketing site, validated form and server action handoff.",
+    openQuotePilot: "Open QuotePilot",
     projectTypes: ["Residential project", "Condo refresh", "Commercial space", "Styling consultation", "Other"],
     budgetRanges: ["Under $5k", "$5k - $10k", "$10k - $25k", "$25k+"],
   },
@@ -60,6 +69,14 @@ const copy = {
       "Dites-nous ce que vous voulez ressentir dans l'espace, ce qui ne fonctionne pas et les contraintes de temps.",
     submit: "Envoyer la demande",
     demoHint: "Mode demo: entrez n'importe quel nom, courriel, projet et budget pour envoyer un vrai lead vers QuotePilot.",
+    startDemo: "Start the ecosystem demo",
+    startDemoText:
+      "C'est le point d'entree: le formulaire publie lead.created, cree une notification QuotePilot et garde tes donnees saisies avec le meme flowId.",
+    testHere: "Ce que tu peux tester ici",
+    receives: "Recoit: intention d'un visiteur public.",
+    sends: "Transmet: lead, budget, message et contact vers QuotePilot.",
+    boilerplate: "Demontre: site marketing bilingue, formulaire valide et server action de relais.",
+    openQuotePilot: "Ouvrir QuotePilot",
     projectTypes: ["Projet residentiel", "Rafraichissement condo", "Espace commercial", "Consultation styling", "Autre"],
     budgetRanges: ["Moins de 5k", "5k - 10k", "10k - 25k", "25k+"],
   },
@@ -85,6 +102,17 @@ export default async function ContactPage({
               description={t.description}
             />
             <div className="mt-10 grid gap-4 text-sm text-muted-foreground">
+              <div className="border bg-card p-5 shadow-sm">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+                  {t.startDemo}
+                </p>
+                <p className="mt-3 leading-6">{t.startDemoText}</p>
+                <div className="mt-4 grid gap-2 text-sm">
+                  <p>{t.receives}</p>
+                  <p>{t.sends}</p>
+                  <p>{t.boilerplate}</p>
+                </div>
+              </div>
               <div className="border-t pt-4">
                 <p className="font-medium text-foreground">KV Portfolio Demo Mode</p>
                 <p className="mt-1">{t.demoHint}</p>
@@ -110,6 +138,12 @@ export default async function ContactPage({
                   Vous pouvez maintenant suivre sa transformation en client et soumission.
                   {query.flowId ? <span className="mt-2 block font-mono text-xs">flowId: {query.flowId}</span> : null}
                 </p>
+                <Link
+                  href="https://quotepilot-omega.vercel.app/dashboard"
+                  className="mt-4 inline-flex border bg-foreground px-3 py-2 text-xs font-semibold text-background hover:opacity-90"
+                >
+                  {t.openQuotePilot}
+                </Link>
               </div>
             ) : null}
             <FormField>
