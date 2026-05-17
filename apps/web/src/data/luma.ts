@@ -215,7 +215,7 @@ export const processSteps = [
 
 export const testimonials = [
   {
-    name: "Mara Chen",
+    name: "Lead Luma entrant",
     project: "The Mile End Loft",
     location: "Montreal",
     quote:
@@ -273,7 +273,7 @@ export const stats = [
 
 export const ecosystemHandoffs = [
   {
-    client: "Mara Chen",
+    client: "Lead Luma entrant",
     company: "Northline Studio",
     request: "Full launch interior concept from The Mile End Loft inquiry",
     next: "Lead LUMA-2026-001 appears in QuotePilot as QP-2026-014",

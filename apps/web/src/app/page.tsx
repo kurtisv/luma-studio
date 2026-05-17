@@ -106,7 +106,7 @@ const homeCopy = {
     ],
     testimonials: [
       {
-        name: "Mara Chen",
+        name: "Lead Luma entrant",
         project: "The Mile End Loft",
         location: "Montreal",
         quote:
