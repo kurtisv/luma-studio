@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { ContactConfirmationEmail } from "@/emails/contact-confirmation";
@@ -31,7 +32,7 @@ export async function sendContactMessage(formData: FormData) {
 
   console.log("Luma Studio contact request", parsed.data);
 
-  await publishEcosystemEvent({
+  const event = await publishEcosystemEvent({
     sourceApp: "luma-studio",
     targetApps: ["quotepilot", "api-meter"],
     eventType: "lead.created",
@@ -51,4 +52,6 @@ export async function sendContactMessage(formData: FormData) {
     subject: "Your Luma Studio inquiry was received",
     react: <ContactConfirmationEmail name={parsed.data.name} />,
   });
+
+  redirect(`/contact?sent=quotepilot&flowId=${encodeURIComponent(event?.flowId ?? "")}`);
 }

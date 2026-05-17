@@ -63,8 +63,13 @@ const copy = {
   },
 } as const;
 
-export default async function ContactPage() {
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ sent?: string; flowId?: string }>;
+}) {
   const locale = await getCurrentLocale();
+  const query = (await searchParams) ?? {};
   const t = copy[locale];
 
   return (
@@ -90,6 +95,17 @@ export default async function ContactPage() {
           </div>
 
           <Form action={sendContactMessage} className="grid gap-5 border bg-card p-6 shadow-sm">
+            {query.sent === "quotepilot" ? (
+              <div className="rounded-md border border-accent/40 bg-accent/10 p-4">
+                <p className="text-sm font-semibold">
+                  Votre demande a ete envoyee vers QuotePilot.
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Vous pouvez maintenant suivre sa transformation en client et soumission.
+                  {query.flowId ? <span className="mt-2 block font-mono text-xs">flowId: {query.flowId}</span> : null}
+                </p>
+              </div>
+            ) : null}
             <FormField>
               <Label htmlFor="name">{t.name}</Label>
               <Input id="name" name="name" required autoComplete="name" />
