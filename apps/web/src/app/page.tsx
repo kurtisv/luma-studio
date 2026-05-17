@@ -106,8 +106,8 @@ const homeCopy = {
     ],
     testimonials: [
       {
-        name: "Camille Moreau",
-        project: "The Mile End Loft",
+        name: "Demande recue",
+        project: "Workspace redesign",
         location: "Montreal",
         quote:
           "Luma a donne a notre loft chaleur, rangement et rythme clair. Il nous ressemble toujours, mais en beaucoup plus abouti.",

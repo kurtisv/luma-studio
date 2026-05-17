@@ -44,7 +44,7 @@ export const services = [
 export const projects = [
   {
     slug: "mile-end-loft",
-    title: "The Mile End Loft",
+    title: "Workspace redesign",
     type: "Residential loft",
     location: "Montreal, QC",
     year: "2026",
@@ -215,8 +215,8 @@ export const processSteps = [
 
 export const testimonials = [
   {
-    name: "Camille Moreau",
-    project: "The Mile End Loft",
+    name: "Client recu",
+    project: "Workspace redesign",
     location: "Montreal",
     quote:
       "Luma gave our loft warmth, storage, and a clear rhythm. It still feels like us, just much more resolved.",
@@ -273,8 +273,8 @@ export const stats = [
 
 export const ecosystemHandoffs = [
   {
-    client: "Camille Moreau",
-    company: "Studio Moreau",
+    client: "Client recu",
+    company: "Projet recu",
     request: "Refonte d'un studio creatif depuis la demande Luma Studio",
     next: "Lead LUMA-2026-001 appears in QuotePilot as QP-2026-014",
   },

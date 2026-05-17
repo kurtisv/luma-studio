@@ -36,7 +36,7 @@ const copy = {
     placeholder:
       "Tell us what you want the space to feel like, what is not working, and any timing constraints.",
     submit: "Send inquiry",
-    demoHint: "Demo scenario: Camille Moreau, creative studio redesign, budget 4 850 $.",
+    demoHint: "Demo mode: submit any name, email, project, and budget to send a live lead into QuotePilot.",
     projectTypes: ["Residential project", "Condo refresh", "Commercial space", "Styling consultation", "Other"],
     budgetRanges: ["Under $5k", "$5k - $10k", "$10k - $25k", "$25k+"],
   },
@@ -59,7 +59,7 @@ const copy = {
     placeholder:
       "Dites-nous ce que vous voulez ressentir dans l'espace, ce qui ne fonctionne pas et les contraintes de temps.",
     submit: "Envoyer la demande",
-    demoHint: "Scenario demo: Camille Moreau, refonte d'un studio creatif, budget 4 850 $.",
+    demoHint: "Mode demo: entrez n'importe quel nom, courriel, projet et budget pour envoyer un vrai lead vers QuotePilot.",
     projectTypes: ["Projet residentiel", "Rafraichissement condo", "Espace commercial", "Consultation styling", "Autre"],
     budgetRanges: ["Moins de 5k", "5k - 10k", "10k - 25k", "25k+"],
   },
@@ -114,22 +114,23 @@ export default async function ContactPage({
             ) : null}
             <FormField>
               <Label htmlFor="name">{t.name}</Label>
-              <Input id="name" name="name" required autoComplete="name" defaultValue="Camille Moreau" />
+              <Input id="name" name="name" required autoComplete="name" placeholder={locale === "fr" ? "Votre nom" : "Your name"} />
             </FormField>
             <div className="grid gap-5 sm:grid-cols-2">
               <FormField>
                 <Label htmlFor="email">{t.email}</Label>
-                <Input id="email" name="email" required type="email" autoComplete="email" defaultValue="camille.demo@kvportfolio.dev" />
+                <Input id="email" name="email" required type="email" autoComplete="email" placeholder={locale === "fr" ? "votre@email.com" : "you@example.com"} />
               </FormField>
               <FormField>
                 <Label htmlFor="phone">{t.phone}</Label>
-                <Input id="phone" name="phone" type="tel" autoComplete="tel" defaultValue="514-555-0485" />
+                <Input id="phone" name="phone" type="tel" autoComplete="tel" placeholder="514-555-0485" />
               </FormField>
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
               <FormField>
                 <Label htmlFor="projectType">{t.projectType}</Label>
-                <select id="projectType" name="projectType" required defaultValue={t.projectTypes[2]} className="h-11 rounded-[2px] border border-border bg-card px-3 text-sm outline-none focus:border-accent">
+                <select id="projectType" name="projectType" required defaultValue="" className="h-11 rounded-[2px] border border-border bg-card px-3 text-sm outline-none focus:border-accent">
+                  <option value="" disabled>{t.projectType}</option>
                   {t.projectTypes.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
@@ -137,7 +138,8 @@ export default async function ContactPage({
               </FormField>
               <FormField>
                 <Label htmlFor="budgetRange">{t.budgetRange}</Label>
-                <select id="budgetRange" name="budgetRange" required defaultValue={t.budgetRanges[1]} className="h-11 rounded-[2px] border border-border bg-card px-3 text-sm outline-none focus:border-accent">
+                <select id="budgetRange" name="budgetRange" required defaultValue="" className="h-11 rounded-[2px] border border-border bg-card px-3 text-sm outline-none focus:border-accent">
+                  <option value="" disabled>{t.budgetRange}</option>
                   {t.budgetRanges.map((item) => (
                     <option key={item}>{item}</option>
                   ))}
@@ -152,7 +154,6 @@ export default async function ContactPage({
                 required
                 rows={7}
                 placeholder={t.placeholder}
-                defaultValue="Nous voulons moderniser un studio creatif sans perdre son caractere. Besoin de clarifier les zones client, atelier et presentation."
               />
             </FormField>
             <Button type="submit" className="w-full sm:w-fit">{t.submit}</Button>
