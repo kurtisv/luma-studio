@@ -106,7 +106,7 @@ const homeCopy = {
     ],
     testimonials: [
       {
-        name: "Lead Luma entrant",
+        name: "Camille Moreau",
         project: "The Mile End Loft",
         location: "Montreal",
         quote:
